@@ -4,6 +4,13 @@ const path = require("path");
 
 const app = express();
 
+const logger = (req, res, next) => {
+  console.log("Logging...");
+  next();
+};
+
+app.use(logger);
+
 app.get("/", (req, res) => {
   res.send("Hello world!");
 });
