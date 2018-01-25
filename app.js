@@ -27,7 +27,9 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.render('index');
+  res.render('index', {
+    title: 'Customers'
+  });
 });
 
 app.listen(3000, () => {
