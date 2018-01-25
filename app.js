@@ -26,9 +26,30 @@ app.use(bodyParser.urlencoded({
 // Set static path
 app.use(express.static(path.join(__dirname, "public")));
 
+const users = [{
+    id: 1,
+    first_name: 'Jorg',
+    last_name: 'Bodo',
+    email: 'jorg@mail.com'
+  },
+  {
+    id: 2,
+    first_name: 'Bukanson',
+    last_name: 'Bodo',
+    email: 'bukanson@mail.com'
+  },
+  {
+    id: 3,
+    first_name: 'Doddy',
+    last_name: 'Bodo',
+    email: 'doddy@mail.com'
+  }
+];
+
 app.get("/", (req, res) => {
   res.render('index', {
-    title: 'Customers'
+    title: 'Customers',
+    users
   });
 });
 
