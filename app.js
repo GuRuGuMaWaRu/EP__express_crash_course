@@ -15,13 +15,20 @@ app.use(logger);
 
 // Body parser middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 // Set static path
 app.use(express.static(path.join(__dirname, "public")));
 
+const person = {
+  name: 'Bob',
+  age: 16
+};
+
 app.get("/", (req, res) => {
-  res.send("Hello world!");
+  res.json(person);
 });
 
 app.listen(3000, () => {
