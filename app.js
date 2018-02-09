@@ -4,6 +4,9 @@ const path = require("path");
 const expressValidator = require("express-validator");
 const { check, validationResult } = require("express-validator/check");
 const { matchedData, sanitize } = require("express-validator/filter");
+const mongojs = require("mongojs");
+
+var db = mongojs("customerapp", ["users"]);
 
 const app = express();
 
@@ -37,31 +40,12 @@ app.use((req, res, next) => {
   next();
 });
 
-const users = [
-  {
-    id: 1,
-    first_name: "Jorg",
-    last_name: "Bodo",
-    email: "jorg@mail.com"
-  },
-  {
-    id: 2,
-    first_name: "Bukanson",
-    last_name: "Bodo",
-    email: "bukanson@mail.com"
-  },
-  {
-    id: 3,
-    first_name: "Doddy",
-    last_name: "Bodo",
-    email: "doddy@mail.com"
-  }
-];
-
 app.get("/", (req, res) => {
-  res.render("index", {
-    title: "Customers",
-    users
+  db.users.find(function(err, docs) {
+    res.render("index", {
+      title: "Customers",
+      users: docs
+    });
   });
 });
 
@@ -95,6 +79,13 @@ app.post(
       last_name: req.body.last_name,
       email: req.body.email
     };
+
+    db.users.insert(newUser, function(err, result) {
+      if (err) {
+        console.log(err);
+      }
+      res.redirect("/");
+    });
   }
 );
 
