@@ -5,9 +5,9 @@ const expressValidator = require("express-validator");
 const { check, validationResult } = require("express-validator/check");
 const { matchedData, sanitize } = require("express-validator/filter");
 const mongojs = require("mongojs");
+const ObjectId = mongojs.ObjectId;
 
-var db = mongojs("customerapp", ["users"]);
-
+const db = mongojs("customerapp", ["users"]);
 const app = express();
 
 /*
@@ -88,6 +88,16 @@ app.post(
     });
   }
 );
+
+app.delete("/users/delete/:id", function(req, res) {
+  console.log(req.params.id);
+  db.users.remove({ _id: ObjectId(req.params.id) }, function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    res.redirect("/");
+  });
+});
 
 app.listen(3000, () => {
   console.log("Server started on port 3000...");
